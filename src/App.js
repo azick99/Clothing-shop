@@ -1,10 +1,25 @@
-import Directory from './directory/Directory'
+import { Routes, Route } from 'react-router-dom'
+import { BrowserRouter } from 'react-router-dom'
 import './directory/directory.style.scss'
-function App() {
+import Home from './routes/home/Home'
+import Navitagtion from './routes/navigation/Navigation'
+
+const Shop = () => {
+  return <h1>I am a shop page</h1>
+}
+
+const App = () => {
   return (
-    <div className="App">
-      <Directory />
-    </div>
+    <BrowserRouter>
+      <div className="App">
+        <Routes>
+          <Route path="/" element={<Navitagtion />}>
+            <Route index element={<Home />} />
+            <Route path="shop" element={<Shop />} />
+          </Route>
+        </Routes>
+      </div>
+    </BrowserRouter>
   )
 }
 
