@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useContext, useState } from 'react'
+import { UserContext } from '../../context/user.context'
 import {
   createAuthUserWithEmailAndPassword,
   createUserDocumentFromAuth,
@@ -6,7 +7,7 @@ import {
 import Button from '../button/Button'
 import FormInput from '../form-input/FormInput'
 import './SignUpForm.style.scss'
-  
+
 const defaultFormFields = {
   displayName: '',
   email: '',
@@ -17,10 +18,10 @@ const SignUpForm = () => {
   const [formFields, setFormFields] = useState(defaultFormFields)
   const { displayName, email, password, confirmPassword } = formFields
 
+  const { setCurrentUser } = useContext(UserContext)
   const resetFormFiels = () => {
     setFormFields(defaultFormFields)
   }
-
   const handleSubmit = async (event) => {
     event.preventDefault()
     if (password !== confirmPassword) {
@@ -29,6 +30,7 @@ const SignUpForm = () => {
     }
     try {
       const { user } = await createAuthUserWithEmailAndPassword(email, password)
+      setCurrentUser(user)
       await createUserDocumentFromAuth(user, { displayName })
       resetFormFiels()
     } catch (error) {
@@ -45,7 +47,7 @@ const SignUpForm = () => {
     setFormFields({ ...formFields, [name]: value })
   }
   return (
-    <div className='sign-up-form-container'>
+    <div className="sign-up-form-container">
       <h2>Don't have an account?</h2>
       <span>Sign up with your email and password</span>
       <form onSubmit={handleSubmit}>
