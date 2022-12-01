@@ -8,6 +8,7 @@ import { UserProvider } from './context/user.context'
 import Shop from './routes/shop/Shop'
 import { ProductProvider } from './context/product.context'
 import { CartProvider } from './context/curt.context'
+import Checkout from './routes/checkout/Checkout'
 
 const App = () => {
   return (
@@ -21,6 +22,7 @@ const App = () => {
                   <Route index element={<Home />} />
                   <Route path="shop" element={<Shop />} />
                   <Route path="auth" element={<Authentication />} />
+                  <Route path="checkout" element={<Checkout />} />
                 </Route>
               </Routes>
             </div>
