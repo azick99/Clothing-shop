@@ -60,7 +60,7 @@ export const CartProvider = ({ children }) => {
       (total, cartItem) => total + cartItem.quantity * cartItem.price,
       0
     )
-  setCartItemPrice(newTotalItemPrice)
+    setCartItemPrice(newTotalItemPrice)
   }, [cartItems])
 
   useEffect(() => {
@@ -91,7 +91,7 @@ export const CartProvider = ({ children }) => {
     cartQnt,
     removeItemFromCart,
     clearItemFromCart,
-    totalItemPrice
+    totalItemPrice,
   }
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>
 }

@@ -1,4 +1,4 @@
-import Directory from '../../directory/Directory'
+import Directory from '../../components/directory/Directory'
 
 const Home = () => {
   return <Directory />
