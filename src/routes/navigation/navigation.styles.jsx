@@ -1,5 +1,7 @@
 import { Link } from 'react-router-dom'
+import {ReactComponent as Hamburger } from '../../assets/icon-hamburger.svg'
 import styled from 'styled-components'
+
 export const NavigationContainer = styled.div`
   height: 70px;
   width: 100%;
@@ -23,4 +25,10 @@ export const NavLinksContainer = styled.div`
 export const NavLink = styled(Link)`
   padding: 10px 15px;
   cursor: pointer;
+`
+
+export const MenuIcon = styled(Hamburger)`
+  @media screen and (max-width: 600px) {
+    background-color: black;
+  }
 `
