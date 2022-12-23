@@ -8,7 +8,6 @@ import { UserContext } from '../../context/user.context'
 import { singOutUser } from '../../utils/firebase/firebase.utils'
 import {
   LogoContanier,
-  MenuIcon,
   NavigationContainer,
   NavLink,
   NavLinksContainer,
@@ -25,7 +24,6 @@ const Navitagtion = () => {
           <CrownLogo />
         </LogoContanier>
         <NavLinksContainer>
-        <MenuIcon/>
           <NavLink to="/shop">SHOP</NavLink>
           {currentUser ? (
             <NavLink as='span' onClick={singOutUser}>SING OUT</NavLink>
