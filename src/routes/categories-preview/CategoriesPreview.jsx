@@ -1,9 +1,10 @@
-import { Fragment, useContext } from 'react'
+import { Fragment, } from 'react'
+import { useSelector } from 'react-redux'
 import CategoryPreview from '../../components/category-preview/CategoryPreview'
-import { CategoriesContext } from '../../context/categories.context'
+import { categoriesSelector } from '../../store/categories/category.selector'
 
 const CategoriesPreview = () => {
-  const { categoriesMap } = useContext(CategoriesContext)
+  const categoriesMap = useSelector(categoriesSelector)
   return (
     <Fragment>
       {Object.keys(categoriesMap).map((title) => {
