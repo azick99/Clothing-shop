@@ -1,4 +1,4 @@
-import { CART_ACTION_TYPE } from '../../context/curt.context'
+import { CART_ACTION_TYPE } from '../curt/curt.types'
 
 export const CART_INTIAL_STATE = {
   isCartOpen: false,
