@@ -1,8 +1,19 @@
-export const categoriesSelector = (state) => {
-  console.log('selector fired');
-  return state.categories.categories.reduce((acc, category) => {
-      const { title, items } = category;
-    acc[title.toLowerCase()] = items
-    return acc
-  }, {})
-}
+import { createSelector } from 'reselect' // memoize selectors
+
+const selectCategoryReducer = (state) => state.categories
+
+export const selectCategories = createSelector(
+  [selectCategoryReducer],
+  (categorySlice) => categorySlice.categories
+) // memoizion making
+
+export const categoriesSelector = createSelector(
+  [selectCategories],
+  (categories) => {
+    return categories.reduce((acc, category) => {
+      const { title, items } = category
+      acc[title.toLowerCase()] = items
+      return acc
+    }, {})
+  }
+)
