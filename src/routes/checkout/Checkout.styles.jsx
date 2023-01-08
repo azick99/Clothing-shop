@@ -10,7 +10,7 @@ export const CheckoutContainer = styled.div`
 `
 export const CheckoutHeader = styled.div`
   width: 100%;
-  padding: 10px 0;
+  padding: 10px 10px 10px 0;
   display: flex;
   justify-content: space-between;
   border-bottom: 1px solid darkgrey;
@@ -18,7 +18,7 @@ export const CheckoutHeader = styled.div`
 
 export const CheckoutBlock = styled.div`
   text-transform: capitalize;
-  width: 23%;
+  width: 15%;
 
   &:last-child {
     width: 8%;
