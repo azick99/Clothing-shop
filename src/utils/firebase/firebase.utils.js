@@ -1,4 +1,4 @@
-import { initializeApp } from 'firebase/app'
+import { initializeApp } from 'firebase/app';
 import {
   getAuth,
   signInWithRedirect,
@@ -8,8 +8,7 @@ import {
   signInWithEmailAndPassword,
   signOut,
   onAuthStateChanged,
-} from 'firebase/auth'
-
+} from 'firebase/auth';
 import {
   getFirestore,
   doc,
@@ -19,107 +18,113 @@ import {
   writeBatch,
   query,
   getDocs,
-} from 'firebase/firestore'
+} from 'firebase/firestore';
 
 const firebaseConfig = {
-  apiKey: 'AIzaSyB5m_voA09uX7ndlxqYucibAXDxRhz3Jc8',
-  authDomain: 'cloth-shopping-a7205.firebaseapp.com',
-  projectId: 'cloth-shopping-a7205',
-  storageBucket: 'cloth-shopping-a7205.appspot.com',
-  messagingSenderId: '243195085163',
-  appId: '1:243195085163:web:fb9beffa98bdaaf50bcc2e',
-}
+  apiKey: 'AIzaSyDDU4V-_QV3M8GyhC9SVieRTDM4dbiT0Yk',
+  authDomain: 'crwn-clothing-db-98d4d.firebaseapp.com',
+  projectId: 'crwn-clothing-db-98d4d',
+  storageBucket: 'crwn-clothing-db-98d4d.appspot.com',
+  messagingSenderId: '626766232035',
+  appId: '1:626766232035:web:506621582dab103a4d08d6',
+};
 
-// Initialize Firebase
-const farebaseApp = initializeApp(firebaseConfig)
+const firebaseApp = initializeApp(firebaseConfig);
 
-const googleProvider = new GoogleAuthProvider()
+const googleProvider = new GoogleAuthProvider();
+
 googleProvider.setCustomParameters({
   prompt: 'select_account',
-})
+});
 
-export const auth = getAuth()
-export const signInWithGooglePopup = () => signInWithPopup(auth, googleProvider)
+export const auth = getAuth();
+export const signInWithGooglePopup = () =>
+  signInWithPopup(auth, googleProvider);
 export const signInWithGoogleRedirect = () =>
-  signInWithRedirect(auth, googleProvider)
+  signInWithRedirect(auth, googleProvider);
 
-//FireStore
-export const db = getFirestore()
+export const db = getFirestore();
+
+export const addCollectionAndDocuments = async (
+  collectionKey,
+  objectsToAdd,
+  field
+) => {
+  const collectionRef = collection(db, collectionKey);
+  const batch = writeBatch(db);
+
+  objectsToAdd.forEach((object) => {
+    const docRef = doc(collectionRef, object.title.toLowerCase());
+    batch.set(docRef, object);
+  });
+
+  await batch.commit();
+  console.log('done');
+};
+
+export const getCategoriesAndDocuments = async () => {
+  const collectionRef = collection(db, 'categories');
+  const q = query(collectionRef);
+
+  const querySnapshot = await getDocs(q);
+  return querySnapshot.docs.map((docSnapshot) => docSnapshot.data());
+};
 
 export const createUserDocumentFromAuth = async (
   userAuth,
   additionalInformation = {}
 ) => {
-  if (!userAuth) return
-  const userDocRef = doc(db, 'users', userAuth.uid)
-  const userSnapshot = await getDoc(userDocRef)
+  if (!userAuth) return;
 
-  //if user data exists
-  //create / set the document with the data from userAuth in collection
+  const userDocRef = doc(db, 'users', userAuth.uid);
 
-  //user data does not exist
+  const userSnapshot = await getDoc(userDocRef);
 
-  //return userDocRef
   if (!userSnapshot.exists()) {
-    const { displayName, email } = userAuth
-    const createAt = new Date()
+    const { displayName, email } = userAuth;
+    const createdAt = new Date();
 
     try {
       await setDoc(userDocRef, {
         displayName,
         email,
-        createAt,
+        createdAt,
         ...additionalInformation,
-      })
+      });
     } catch (error) {
-      console.log('error creating the user', error.message)
+      console.log('error creating the user', error.message);
     }
-    return userDocRef
   }
-}
 
-export const createAuthUserWithEmailAndPassword = async (email, passsword) => {
-  if (!email || !passsword) return
-  return await createUserWithEmailAndPassword(auth, email, passsword)
-}
-export const signInAuthWithEmailAndPassword = async (email, passsword) => {
-  if (!email || !passsword) return
-  return await signInWithEmailAndPassword(auth, email, passsword)
-}
+  return userSnapshot;
+};
 
-export const singOutUser = async () => await signOut(auth)
+export const createAuthUserWithEmailAndPassword = async (email, password) => {
+  if (!email || !password) return;
+
+  return await createUserWithEmailAndPassword(auth, email, password);
+};
+
+export const signInAuthUserWithEmailAndPassword = async (email, password) => {
+  if (!email || !password) return;
+
+  return await signInWithEmailAndPassword(auth, email, password);
+};
+
+export const signOutUser = async () => await signOut(auth);
 
 export const onAuthStateChangedListener = (callback) =>
-  onAuthStateChanged(auth, callback)
+  onAuthStateChanged(auth, callback);
 
-// Working with categories and data through Firestore no SQL
-
-export const addCollactionAndDocuments = async (
-  collectionKey,
-  objectsToAdd
-) => {
-  const collectionRef = collection(db, collectionKey)
-  const batch = writeBatch(db)
-
-  objectsToAdd.forEach((object) => {
-    const docRef = doc(collectionRef, object.title.toLowerCase())
-    batch.set(docRef, object)
-  })
-
-  await batch.commit()
-  console.log('done')
-}
-
-export const getCategoriesAndDocuments = async () => {
-  const collectionRef = collection(db, 'categories')
-  const q = query(collectionRef)
-
-  const querySnapshot = await getDocs(q)
-  return querySnapshot.docs.map(docSnapShot => docSnapShot.data())
-    
-  //   .reduce((acc, docSnapshot) => {
-  //   const { title, items } = docSnapshot.data()
-  //   acc[title.toLowerCase()] = items
-  //   return acc
-  // }, {})
-}
+export const getCurrentUser = () => {
+  return new Promise((resolve, reject) => {
+    const unsubscribe = onAuthStateChanged(
+      auth,
+      (userAuth) => {
+        unsubscribe();
+        resolve(userAuth);
+      },
+      reject
+    );
+  });
+};

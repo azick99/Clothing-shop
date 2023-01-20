@@ -7,24 +7,13 @@ import Authentication from './routes/authentication/Authentication'
 import Shop from './routes/shop/Shop'
 import Checkout from './routes/checkout/Checkout'
 import { useDispatch } from 'react-redux'
-import {
-  createUserDocumentFromAuth,
-  onAuthStateChangedListener,
-} from './utils/firebase/firebase.utils'
-import { setCurrentUser } from './store/user/user.action'
+import { checkUserSession } from './store/user/user.action'
 
 const App = () => {
   const dispatch = useDispatch()
   useEffect(() => {
-    const unsubscirbe = onAuthStateChangedListener((user) => {
-      setCurrentUser(user)
-      if (user) {
-        createUserDocumentFromAuth(user)
-      }
-      dispatch(setCurrentUser(user))
-    })
-    return unsubscirbe
-  }, [dispatch])
+   dispatch(checkUserSession())
+  }, [])
 
   return (
     <BrowserRouter>
