@@ -1,9 +1,4 @@
-<<<<<<< HEAD:src/components/button/button.styles.jsx
 import styled from 'styled-components';
-=======
-import styled from 'styled-components'
-import { SpinnerContainer } from '../spinner/spinner.style';
->>>>>>> 932ce2b502ca18d4a9be6b7010706d4bd3a5973d:src/components/button/Button.style.jsx
 
 export const BaseButton = styled.button`
   min-width: 165px;
@@ -50,16 +45,4 @@ export const InvertedButton = styled(BaseButton)`
     color: white;
     border: none;
   }
-<<<<<<< HEAD:src/components/button/button.styles.jsx
 `;
-=======
-`
-
-
-export const ButtonSpinner = styled(SpinnerContainer)`
-
-  width: 30px;
-  height: 30px;
-
-`
->>>>>>> 932ce2b502ca18d4a9be6b7010706d4bd3a5973d:src/components/button/Button.style.jsx
