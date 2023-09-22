@@ -1,17 +1,17 @@
-import React from 'react';
-import { render } from 'react-dom';
-import { BrowserRouter } from 'react-router-dom';
-import { Provider } from 'react-redux';
-import { PersistGate } from 'redux-persist/integration/react';
+import React from 'react'
+import { BrowserRouter } from 'react-router-dom'
+import { Provider } from 'react-redux'
+import { PersistGate } from 'redux-persist/integration/react'
+import { createRoot } from 'react-dom/client'
+import App from './App'
+import { store, persistor } from './store/store'
 
-import App from './App';
-import { store, persistor } from './store/store';
+import * as serviceWorkerRegistration from './serviceWorkerRegistration'
 
-import './index.scss';
+const rootElement = document.getElementById('root')
+const root = createRoot(rootElement)
 
-const rootElement = document.getElementById('root');
-
-render(
+root.render(
   <React.StrictMode>
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
@@ -20,6 +20,7 @@ render(
         </BrowserRouter>
       </PersistGate>
     </Provider>
-  </React.StrictMode>,
-  rootElement
-);
+  </React.StrictMode>
+)
+
+serviceWorkerRegistration.register()
